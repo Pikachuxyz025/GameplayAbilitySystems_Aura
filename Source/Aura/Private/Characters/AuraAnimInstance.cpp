@@ -23,5 +23,6 @@ void UAuraAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	if (!AuraCharacter || !AuraCharacterMovement)return;
 
 	GroundSpeed = UKismetMathLibrary::VSizeXY(AuraCharacterMovement->Velocity);
+	bShouldMove = GroundSpeed > 3.f;
 	bIsFalling = AuraCharacterMovement->IsFalling();
 }
