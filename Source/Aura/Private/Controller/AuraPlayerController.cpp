@@ -19,7 +19,8 @@ void AAuraPlayerController::BeginPlay()
 	check(AuraContext); // it seem like we can use check for the variable in question to see if it's valid 
 
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
+
+	if(Subsystem)
 	Subsystem->AddMappingContext(AuraContext, 0);
 
 	// setting up cursor in game
