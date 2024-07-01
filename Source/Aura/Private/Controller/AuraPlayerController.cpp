@@ -77,7 +77,7 @@ void AAuraPlayerController::CursorTrace()
 	if (!CursorHit.bBlockingHit)return;
 
 	FString ActorName = UKismetSystemLibrary::GetDisplayName(CursorHit.GetActor());
-	UE_LOG(LogTemp, Display, TEXT("Hit %s"), *ActorName);
+	//UE_LOG(LogTemp, Display, TEXT("Hit %s"), *ActorName);
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor(); // Thanks to TScriptInterface, casting isn't necessary
 

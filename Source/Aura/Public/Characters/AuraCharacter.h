@@ -30,7 +30,8 @@ public:
 	
 	
 	virtual void PossessedBy(AController* NewController) override;
-	virtual void OnRep_PlayerState() override;
+	virtual void OnRep_PlayerState() override;	
+	virtual void InitAbilityActorInfo() override;
 protected:
 
 	/** Returns CameraBoom subobject **/
@@ -39,5 +40,5 @@ protected:
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 private:
-	void InitAbilityActorInfo();
+
 };

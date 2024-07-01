@@ -23,3 +23,7 @@ UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+void AAuraCharacterBase::InitAbilityActorInfo()
+{
+}
+
