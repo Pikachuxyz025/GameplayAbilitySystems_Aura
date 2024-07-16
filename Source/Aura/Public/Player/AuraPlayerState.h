@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+using namespace UP;
 #pragma once
 
 #include "CoreMinimal.h"
@@ -20,7 +20,7 @@ public:
 
 protected:
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<class UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()

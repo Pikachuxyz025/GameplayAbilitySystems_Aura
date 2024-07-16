@@ -7,6 +7,8 @@ using namespace UP;
 #include "AbilitySystemInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UGameplayEffect;
+
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface
 {
@@ -28,9 +30,19 @@ protected:
 	UPROPERTY()
 	TObjectPtr<class UAttributeSet> AttributeSet;
 
+	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
+
 	// Inherited via IAbilitySystemInterface
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 	virtual void InitAbilityActorInfo();
+	void InitializePrimaryAttributes()const;
+	void InitializeSecondaryAttributes()const;
+
+	void SetupSpecs(TSubclassOf<UGameplayEffect> DefaultAttibutes) const;
 };
