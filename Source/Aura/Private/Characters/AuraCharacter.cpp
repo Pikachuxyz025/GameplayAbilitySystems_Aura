@@ -38,6 +38,13 @@ AAuraCharacter::AAuraCharacter()
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 }
 
+int32 AAuraCharacter::GetPlayerLevel()
+{
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerLevel();
+}
+
 void AAuraCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
@@ -69,5 +76,5 @@ void AAuraCharacter::InitAbilityActorInfo()
 		if(AAuraHUD * AuraHUD = Cast<AAuraHUD>(AuraPC->GetHUD()))
 		AuraHUD->InitOverlay(AuraPC, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 	}
-	InitializePrimaryAttributes();
+	InitialDefaultAttributes();
 }
