@@ -60,6 +60,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 #pragma endregion
 
 #pragma region Primary Attributes
+	
 	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Intelligence"),
 		FString("Increases Magical Damage")

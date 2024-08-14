@@ -53,6 +53,8 @@ struct FEffectProperties
 /**
  *
  */
+typedef TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFuncPtr;
+
 UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
 {
@@ -66,9 +68,10 @@ public:
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
-	TMap<FGameplayTag, TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr> TagsToAttributes;
+	TMap<FGameplayTag, FGameplayAttribute(*)() /*TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr*/> TagsToAttributes;
 
 	/** TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr FunctionPointer;
+	* Can be precalled (like class) with typedef
 	* Function Pointer can take place of a function that returns a variable
 	* FunctionPointer = GetStrengthAttribute;
 	* FGameplayAttribute Attribute = FunctionPointer(); 

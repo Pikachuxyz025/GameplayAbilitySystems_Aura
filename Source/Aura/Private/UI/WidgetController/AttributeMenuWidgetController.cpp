@@ -13,10 +13,17 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 
 	check(AttributeInfo);
 
-	FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(FAuraGameplayTags::Get().Attributes_Primary_Strength);
-	Info.AttributeValue = AS->GetStrength();
+	for (auto& Pair : AS->TagsToAttributes)
+	{
+		if (Pair.Key.MatchesTagExact(FAuraGameplayTags::Get().Attributes_Primary_Intelligence))
+		{
+			UE_LOG(LogTemp, Display, TEXT("Intelligence"));
+		}
+		FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Pair.Key);
+		Info.AttributeValue = Pair.Value().GetNumericValue(AS);
+		AttributeInfoDelegate.Broadcast(Info);
 
-	AttributeInfoDelegate.Broadcast(Info);
+}
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()

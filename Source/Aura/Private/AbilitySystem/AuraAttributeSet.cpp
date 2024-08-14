@@ -10,10 +10,11 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	const FAuraGameplayTags  GameplayTags=FAuraGameplayTags::Get();
-
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
+	const FAuraGameplayTags  GameplayTags = FAuraGameplayTags::Get();
+	
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Resilience, GetResilienceAttribute);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
