@@ -58,7 +58,7 @@ struct FEffectProperties
 
 // allias as a true template
 template<class T>
-using TStaticFuncPtr = typename TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr;
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
 
 UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
@@ -74,6 +74,9 @@ public:
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
+
+	TStaticFuncPtr<float(int32, float, int32)> RandomFunctionPointer;
+	static float RandomFunction(int32 I, float F, int32 I2) { return 0.f; }
 
 	/** TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr FunctionPointer;
 	* Can be precalled (like class) with typedef

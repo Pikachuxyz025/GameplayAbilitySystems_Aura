@@ -15,6 +15,10 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Resilience, GetResilienceAttribute);
+
+	RandomFunctionPointer = RandomFunction;
+	float F = RandomFunctionPointer(0, 0.f, 0);
+
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -105,6 +109,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		SetMana(FMath::Clamp(GetMana(), 0, GetMaxMana()));
 	}
 }
+
+
 
 #pragma region Rep Notifies
 void UAuraAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
