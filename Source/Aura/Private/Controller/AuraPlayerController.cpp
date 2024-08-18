@@ -2,11 +2,11 @@
 
 
 #include "Controller/AuraPlayerController.h"
-#include "EnhancedInputComponent.h"
 #include "Interfaces/EnemyInterface.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Input/AuraInputComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -42,10 +42,11 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	UEnhancedInputComponent* EnhancedInput = CastChecked<UEnhancedInputComponent>(InputComponent);
-	
-		EnhancedInput->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
-	
+	UAuraInputComponent* AuraInput = CastChecked<UAuraInputComponent>(InputComponent);
+
+	AuraInput->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	AuraInput->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
+
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& Value)
@@ -106,4 +107,19 @@ void AAuraPlayerController::CursorTrace()
 			ThisActor->HighlightActor();
 		}
 	}
+}
+
+void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+}
+
+void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
+}
+
+void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
 }

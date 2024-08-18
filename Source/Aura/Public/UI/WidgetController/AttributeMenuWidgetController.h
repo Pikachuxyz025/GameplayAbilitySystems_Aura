@@ -13,6 +13,13 @@
 
 class UAttributeInfoDataAsset;
 struct FAuraAttributeInfo;
+
+struct FGameplayTag;
+
+struct FGameplayAttribute;
+
+
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttributeInfoSignature, const FAuraAttributeInfo&, Info);
 
 UCLASS(BlueprintType, Blueprintable)
@@ -24,6 +31,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues() override;
 
+	void BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const;
+
 	virtual void BindCallbacksToDependencies() override;
 	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
@@ -32,4 +41,6 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	TObjectPtr<UAttributeInfoDataAsset>AttributeInfo;
+
+	
 };

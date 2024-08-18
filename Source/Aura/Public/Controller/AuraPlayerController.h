@@ -1,14 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+using namespace UP;
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "AuraPlayerController.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
 class IEnemyInterface;
+
+class UAuraInputConfig;
 struct FInputActionValue;
 
 UCLASS()
@@ -35,6 +38,13 @@ private:
 	void CursorTrace();
 	TScriptInterface<IEnemyInterface>LastActor; // The new way to use pointers particularly for interfaces
 	TScriptInterface<IEnemyInterface>ThisActor;
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+
+	UPROPERTY(EditDefaultsOnly,Category="Input")
+	TObjectPtr<UAuraInputConfig> InputConfig;
 
 	//class	 UEnhancedInputLocalPlayerSubsystem* Subsystem;
 };
