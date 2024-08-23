@@ -10,6 +10,9 @@ using namespace UP;
 class UInputMappingContext;
 class UInputAction;
 class IEnemyInterface;
+class UAuraAbilitySystemComponent;
+
+class USplineComponent;
 
 class UAuraInputConfig;
 struct FInputActionValue;
@@ -39,6 +42,8 @@ private:
 	TScriptInterface<IEnemyInterface>LastActor; // The new way to use pointers particularly for interfaces
 	TScriptInterface<IEnemyInterface>ThisActor;
 
+	FHitResult CursorHit;
+
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
@@ -46,5 +51,24 @@ private:
 	UPROPERTY(EditDefaultsOnly,Category="Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
 
-	//class	 UEnhancedInputLocalPlayerSubsystem* Subsystem;
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent>AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetASC();
+
+	FVector CachedDestination=FVector::ZeroVector;
+	FVector MouseHitLocation = FVector::ZeroVector;
+	float FollowTime = 0.f;
+	float ShortPressThreshold = 0.5f;
+	bool bAutoRunning = false;
+	bool bTargeting = false;
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius = 50.f;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USplineComponent>Spline;
+
+	void AutoRun();
+public:
+	FHitResult GetCursorHit() const { return CursorHit; }
 };
