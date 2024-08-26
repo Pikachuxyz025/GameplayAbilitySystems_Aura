@@ -1,11 +1,18 @@
 #include "Characters/AuraCharacterBase.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
+#include <Aura/Aura.h>
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
 
 	PrimaryActorTick.bCanEverTick = true;
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	GetMesh()->SetGenerateOverlapEvents(true);
 
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
@@ -45,7 +52,7 @@ void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Gameplay
 	FActiveGameplayEffectHandle ActiveEffectHandle = GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecsHandle.Data.Get(), GetAbilitySystemComponent());
 }
 
-void AAuraCharacterBase::InitialDefaultAttributes() const
+void AAuraCharacterBase::InitializeDefaultAttributes() const
 {
 	// Primary Attributes
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);

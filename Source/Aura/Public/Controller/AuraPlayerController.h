@@ -37,7 +37,15 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> IA_Move;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> IA_Shift;
+
 	void Move(const FInputActionValue& Value);
+	bool bShiftKeyDown = false;
+	void ShiftPressed() {bShiftKeyDown=true;}
+	void ShiftReleased() { bShiftKeyDown = false; }
+
+
 	void CursorTrace();
 	TScriptInterface<IEnemyInterface>LastActor; // The new way to use pointers particularly for interfaces
 	TScriptInterface<IEnemyInterface>ThisActor;
