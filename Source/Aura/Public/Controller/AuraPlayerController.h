@@ -13,7 +13,7 @@ class IEnemyInterface;
 class UAuraAbilitySystemComponent;
 
 class USplineComponent;
-
+class UDamageTextComponent;
 class UAuraInputConfig;
 struct FInputActionValue;
 
@@ -29,6 +29,11 @@ public:
 	virtual void BeginPlay() override;
 	virtual void PlayerTick(float DeltaTime) override;
 	virtual void SetupInputComponent() override;
+
+	UFUNCTION(Client,Reliable)
+	void ClientShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+
+	
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -66,10 +71,13 @@ private:
 
 	FVector CachedDestination=FVector::ZeroVector;
 	FVector MouseHitLocation = FVector::ZeroVector;
+
 	float FollowTime = 0.f;
 	float ShortPressThreshold = 0.5f;
+
 	bool bAutoRunning = false;
 	bool bTargeting = false;
+
 	UPROPERTY(EditDefaultsOnly)
 	float AutoRunAcceptanceRadius = 50.f;
 
@@ -77,6 +85,9 @@ private:
 	TObjectPtr<USplineComponent>Spline;
 
 	void AutoRun();
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 public:
 	FHitResult GetCursorHit() const { return CursorHit; }
 };

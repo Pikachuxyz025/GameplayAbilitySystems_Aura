@@ -12,7 +12,9 @@
 #include <AbilitySystemBlueprintLibrary.h>
 #include "Components/SplineComponent.h"
 #include <NavigationSystem.h>
+#include "GameFramework/Character.h"
 #include "NavigationPath.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -80,6 +82,18 @@ void AAuraPlayerController::SetupInputComponent()
 	AuraInput->BindAction(IA_Shift, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
 	AuraInput->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 
+}
+
+void AAuraPlayerController::ClientShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	if (IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter , DamageTextComponentClass);
+		DamageText->RegisterComponent(); // since we're creating the component dynamically, we have to manually register the component created. This is typically done automatically with CreateDefaultSubobjects
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(DamageAmount);
+	}
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& Value)

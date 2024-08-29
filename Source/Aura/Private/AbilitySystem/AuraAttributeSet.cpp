@@ -6,7 +6,10 @@
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "AuraGameplayTags.h"
+#include "Interfaces/CombatInterface.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include <Kismet/GameplayStatics.h>
+#include <Controller/AuraPlayerController.h>
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -115,9 +118,47 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		SetMana(FMath::Clamp(GetMana(), 0, GetMaxMana()));
 	}
+
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingDamage();
+		SetIncomingDamage(0.f);
+		if (LocalIncomingDamage > 0)
+		{
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+
+			const bool bFatal = NewHealth <= 0.f;
+			if (bFatal)
+			{
+				TScriptInterface<ICombatInterface> CombatInteface = Props.TargetAvatarActor;
+				if (CombatInteface)
+				{
+					CombatInteface->Die();
+				}
+			}
+			else
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
+
+			ShowFloatingText(Props, LocalIncomingDamage);
+		}
+	}
 }
 
-
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, const float Damage) const
+{
+	if (Props.SourceCharacter != Props.TargetCharacter)
+	{
+		if (AAuraPlayerController* AuraPC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		{
+			AuraPC->ClientShowDamageNumber(Damage, Props.TargetCharacter);
+		}
+	}
+}
 
 #pragma region Rep Notifies
 void UAuraAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
