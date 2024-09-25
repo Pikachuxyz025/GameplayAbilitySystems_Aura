@@ -31,7 +31,7 @@ public:
 	virtual void SetupInputComponent() override;
 
 	UFUNCTION(Client,Reliable)
-	void ClientShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+	void ClientShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit);
 
 	
 private:

@@ -84,7 +84,7 @@ void AAuraPlayerController::SetupInputComponent()
 
 }
 
-void AAuraPlayerController::ClientShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+void AAuraPlayerController::ClientShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit)
 {
 	if (IsValid(TargetCharacter) && DamageTextComponentClass)
 	{
@@ -92,7 +92,7 @@ void AAuraPlayerController::ClientShowDamageNumber_Implementation(float DamageAm
 		DamageText->RegisterComponent(); // since we're creating the component dynamically, we have to manually register the component created. This is typically done automatically with CreateDefaultSubobjects
 		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		DamageText->SetDamageText(DamageAmount);
+		DamageText->SetDamageText(DamageAmount,bBlockedHit,bCriticalHit);
 	}
 }
 

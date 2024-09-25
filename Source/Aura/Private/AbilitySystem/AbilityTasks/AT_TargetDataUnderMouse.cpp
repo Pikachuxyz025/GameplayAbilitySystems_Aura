@@ -43,12 +43,9 @@
 
 	 AAuraPlayerController* APC = Cast<AAuraPlayerController>(Ability->GetCurrentActorInfo()->PlayerController.Get());
 	 FHitResult CursorHit = APC->GetCursorHit();
-
-	 DataHandle.Add(Data);
+	
 	 Data->HitResult = CursorHit;
-	 FGameplayTag ApplicationTag;
-
-
+	 DataHandle.Add(Data);
 
 	 AbilitySystemComponent->ServerSetReplicatedTargetData(
 		 GetAbilitySpecHandle(),
