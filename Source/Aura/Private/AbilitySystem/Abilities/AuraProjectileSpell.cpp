@@ -4,6 +4,7 @@
 #include "AbilitySystem/Abilities/AuraProjectileSpell.h"
 #include <Kismet/KismetSystemLibrary.h>
 #include "Interfaces/CombatInterface.h"
+#include "Components/SphereComponent.h"
 #include "Actor/AuraProjectile.h"
 #include "Aura/Public/AuraGameplayTags.h"
 #include "AbilitySystemBlueprintLibrary.h"
@@ -24,7 +25,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	{
 		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
-		Rotation.Pitch = 0.f;
+		//Rotation.Pitch = 0.f;
 
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
@@ -49,6 +50,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 		HitResult.Location = ProjectileTargetLocation;
 		EffectContextHandle.AddHitResult(HitResult);
 
+		Projectile->GetSphere()->IgnoreActorWhenMoving(GetOwningActorFromActorInfo(), true);
 		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), EffectContextHandle);
 		
 		FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();

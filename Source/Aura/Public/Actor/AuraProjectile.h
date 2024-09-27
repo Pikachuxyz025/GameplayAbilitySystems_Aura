@@ -50,4 +50,7 @@ private:
 	TObjectPtr<USoundBase>LoopingSound;
 
 	TObjectPtr<UAudioComponent>LoopingSoundComponent;
+
+public:
+	TObjectPtr<USphereComponent> GetSphere() { return Sphere; }
 };

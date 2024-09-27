@@ -8,12 +8,12 @@
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
-	const  UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
-	OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
+	const  UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);	
 	OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
+	OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
 
-	OnManaChanged.Broadcast(AuraAttributeSet->GetMana());
 	OnMaxManaChanged.Broadcast(AuraAttributeSet->GetMaxMana());
+	OnManaChanged.Broadcast(AuraAttributeSet->GetMana());
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()

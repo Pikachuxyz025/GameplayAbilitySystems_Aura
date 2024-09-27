@@ -77,5 +77,6 @@ void AAuraCharacter::InitAbilityActorInfo()
 		if(AAuraHUD * AuraHUD = Cast<AAuraHUD>(AuraPC->GetHUD()))
 		AuraHUD->InitOverlay(AuraPC, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 	}
+	if(HasAuthority())
 	InitializeDefaultAttributes();
 }
