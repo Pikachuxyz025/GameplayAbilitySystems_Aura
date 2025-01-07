@@ -9,10 +9,9 @@ using namespace UP;
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraEnemy.generated.h"
 
-/**
- *
- */
+class UBehaviorTree;
 class UWidgetComponent;
+class AAuraAIController;
 UCLASS()
 class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 {
@@ -20,7 +19,7 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 
 public:
 	AAuraEnemy();
-
+	virtual void PossessedBy(AController* NewController) override;
 	virtual void Die() override;
 
 #pragma region HighlightInterface
@@ -60,4 +59,9 @@ UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults"
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent>HealthBar;
 	
+	UPROPERTY(EditAnywhere,Category="AI")
+	TObjectPtr<UBehaviorTree>BehaviorTree;
+
+	UPROPERTY()
+	TObjectPtr<AAuraAIController>AuraAIController;
 };
