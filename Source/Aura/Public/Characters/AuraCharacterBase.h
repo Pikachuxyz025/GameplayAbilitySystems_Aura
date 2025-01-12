@@ -13,37 +13,58 @@ class UGameplayAbility;
 class UAnimMontage;
 
 UCLASS(Abstract)
-class AURA_API AAuraCharacterBase : public ACharacter,public IAbilitySystemInterface,public ICombatInterface
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
 public:
 	AAuraCharacterBase();
 
-	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
-	virtual void Die() override;
 
-	UFUNCTION(NetMulticast,Reliable)
+
+	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
+
+#pragma region Combat Interface
+
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	virtual UAnimMontage* GetAttackMontage_Implementation() override;
+	virtual void Die() override;
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
+	virtual bool IsDead_Implementation() const override;
+	virtual AActor* GetAvatar_Implementation() override;
+	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TArray<FTaggedMontage> AttackMontages;
+#pragma endregion
 
 protected:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere,Category="Combat")
+	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation()override;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName LeftHandSocketName;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName RightHandSocketName;
+
+	bool bDead = false;
+
 	UPROPERTY()
 	TObjectPtr<class UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
 	TObjectPtr<class UAttributeSet> AttributeSet;
 
-	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category="Attributes")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
@@ -79,13 +100,16 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Elim")
 	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,  Category = "Elim")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Elim")
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 private:
 
-	UPROPERTY(EditAnywhere,Category= "Abilities")
+	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<UAnimMontage> AttackMontage;
 };
