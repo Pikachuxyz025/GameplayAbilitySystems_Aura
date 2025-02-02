@@ -217,18 +217,58 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FString("Attack Ability Tag")
 	);
 
-	GameplayTags.Montage_Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Montage.Attack.Weapon"),
+	GameplayTags.Abilities_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Summon"),
+		FString("Summon Ability Tag")
+	);
+	
+	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Fire.FireBolt"),
+		FString("FireBolt Ability Tag")
+	);
+
+	GameplayTags.Cooldown_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Fire.FireBolt"),
+		FString("FireBolt Cooldown Tag")
+	);
+
+	GameplayTags.CombatSocket_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("CombatSocket.Weapon"),
 		FString("Weapon")
 	);
 
-	GameplayTags.Montage_Attack_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Montage.Attack.RightHand"),
+	GameplayTags.CombatSocket_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("CombatSocket.RightHand"),
 		FString("Right Hand")
 	);
 
-	GameplayTags.Montage_Attack_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Montage.Attack.LeftHand"),
+	GameplayTags.CombatSocket_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("CombatSocket.LeftHand"),
 		FString("Left Hand")
+	);
+
+	GameplayTags.CombatSocket_Tail = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("CombatSocket.Tail"),
+		FString("Tail")
+	);
+
+	GameplayTags.Montage_Attack1 = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Montage.Attack1"),
+		FString("Attack 1")
+	);
+
+	GameplayTags.Montage_Attack2 = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Montage.Attack2"),
+		FString("Attack 2")
+	);
+
+	GameplayTags.Montage_Attack3 = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Montage.Attack3"),
+		FString("Attack 3")
+	);
+
+	GameplayTags.Montage_Attack4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Montage.Attack4"),
+		FString("Attack 4")
 	);
 }

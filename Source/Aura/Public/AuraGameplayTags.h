@@ -61,10 +61,21 @@ public:
 	FGameplayTag Effects_HitReact;
 
 	FGameplayTag Abilities_Attack;
+	FGameplayTag Abilities_Summon;
+	FGameplayTag Abilities_Fire_FireBolt;
 
-	FGameplayTag Montage_Attack_Weapon;
-	FGameplayTag Montage_Attack_RightHand;
-	FGameplayTag Montage_Attack_LeftHand;
+	FGameplayTag Cooldown_Fire_FireBolt;
+
+	FGameplayTag CombatSocket_Weapon;
+	FGameplayTag CombatSocket_RightHand;
+	FGameplayTag CombatSocket_LeftHand;
+	FGameplayTag CombatSocket_Tail;
+
+
+	FGameplayTag Montage_Attack1;
+	FGameplayTag Montage_Attack2;
+	FGameplayTag Montage_Attack3;
+	FGameplayTag Montage_Attack4;
 
 	TMap<FGameplayTag,FGameplayTag> DamageTypesToResistances;
 
