@@ -2,6 +2,7 @@
 
 
 #include "UI/WidgetController/AuraWidgetController.h"
+#include "Player/AuraPlayerState.h"
 
 void UAuraWidgetController::SetWidgetControllerParams(const FWidgetControllerParams& WCParams)
 {

@@ -5,7 +5,9 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Engine/DataTable.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
+#include "AbilitySystem/Data/LevelUpInfo.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include <Player/AuraPlayerState.h>
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -86,6 +88,17 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 				}
 			}
 		); // a lambda is an anonymous function, has no name,no declaration, no member function
+	}
+
+	if (AAuraPlayerState* AuraPS = Cast<AAuraPlayerState>(PlayerState))
+	{
+		AuraPS->OnXPChangedDelegate.AddLambda
+		(
+			[this,AuraPS](int32 StatValue)
+			{
+				LevelUpInfoDelegate.Broadcast(StatValue);
+			}
+		);
 	}
 }
 
