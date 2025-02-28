@@ -5,7 +5,6 @@ using namespace UP;
 #include "CoreMinimal.h"
 #include "Characters/AuraCharacterBase.h"
 #include "Interfaces/EnemyInterface.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraEnemy.generated.h"
 
@@ -30,7 +29,7 @@ public:
 	virtual void UnHighlightActor() override;
 #pragma endregion
 
-	virtual int32 GetPlayerLevel() override;
+	virtual int32 GetPlayerLevel_Implementation() override;
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnHealthChanged;
@@ -58,9 +57,6 @@ protected:
 	virtual void InitializeDefaultAttributes() const override;
 UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	int32 Level = 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
-	ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent>HealthBar;

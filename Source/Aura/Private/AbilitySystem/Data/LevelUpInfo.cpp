@@ -4,7 +4,7 @@
 #include "AbilitySystem/Data/LevelUpInfo.h"
 #include "Aura/AuraLogChannels.h"
 
-int32 ULevelUpInfo::FindLevelForXP(int32 XP)
+int32 ULevelUpInfo::FindLevelForXP(int32 XP) const
 {
 #pragma region My Solution	
 	/*

@@ -126,6 +126,20 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	);
 #pragma endregion
 
+#pragma region Meta Attributes
+	GameplayTags.Attributes_Meta_IncomingDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.IncomingDamage"),
+		FString("Incoming Damage Meta Attribute")
+	);
+
+	GameplayTags.Attributes_Meta_IncomingXP = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.IncomingXP"),
+		FString("Incoming XP Meta Attribute")
+	);
+#pragma endregion
+
+
+
 #pragma region Messages
 	GameplayTags.Message_HealthCrystal = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Message.HealthCrystal"),

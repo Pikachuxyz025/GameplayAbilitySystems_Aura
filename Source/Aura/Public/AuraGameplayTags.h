@@ -35,6 +35,9 @@ public:
 	FGameplayTag Attributes_Vital_Health;
 	FGameplayTag Attributes_Vital_Mana;
 
+	FGameplayTag Attributes_Meta_IncomingDamage;
+	FGameplayTag Attributes_Meta_IncomingXP;
+
 	FGameplayTag Message_HealthCrystal;
 	FGameplayTag Message_HealthPotion;
 	FGameplayTag Message_ManaCrystal;

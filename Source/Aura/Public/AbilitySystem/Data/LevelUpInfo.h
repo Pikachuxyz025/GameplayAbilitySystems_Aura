@@ -37,7 +37,7 @@ public:
 	TArray<FAuraLevelUpInfo> LevelUpInformation;
 
 	UFUNCTION(BlueprintCallable,BlueprintPure)
-	int32 FindLevelForXP(int32 XP);
+	int32 FindLevelForXP(int32 XP) const;
 
 	FAuraLevelUpInfo GetLevelUpInfo(int32 CurrentLevel);
 };
