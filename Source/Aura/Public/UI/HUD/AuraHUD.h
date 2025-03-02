@@ -11,6 +11,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 class UOverlayWidgetController;
 class UAttributeMenuWidgetController;
+class USpellMenuWidgetController;
 struct FWidgetControllerParams;
 /**
  * 
@@ -28,24 +29,29 @@ public:
 
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
 	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams);
+	USpellMenuWidgetController* GetSpellMenuWidgetController(const FWidgetControllerParams& WCParams);
 private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UAuraUserWidget> OverlayWidgetClass;
 
 	UPROPERTY()
-	TObjectPtr<	UOverlayWidgetController> OverlayWidgetController;
+	TObjectPtr<UOverlayWidgetController> OverlayWidgetController;
 
 	UPROPERTY()
-	TObjectPtr<	UAttributeMenuWidgetController> AttributeMenuWidgetController;
+	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
+
+	UPROPERTY()
+	TObjectPtr<USpellMenuWidgetController> SpellMenuWidgetController;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UOverlayWidgetController>OverlayWidgetControllerClass;
+	TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UAttributeMenuWidgetController>AttributeMenuWidgetControllerClass;
+	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
 
-
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<USpellMenuWidgetController> SpellMenuWidgetControllerClass;
 protected:
 	virtual void BeginPlay() override;
 
