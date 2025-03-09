@@ -85,6 +85,7 @@ public:
 	* With this in mind we can now have callable function occupy the space of a variable within something like an array or a tmap
     */
 
+	void MaximizeVitalAttributes();
 #pragma region Vital Attributes
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
 	FGameplayAttributeData Health;

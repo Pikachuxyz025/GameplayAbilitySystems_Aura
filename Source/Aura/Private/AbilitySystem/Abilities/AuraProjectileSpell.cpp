@@ -6,7 +6,7 @@
 #include "Interfaces/CombatInterface.h"
 #include "Components/SphereComponent.h"
 #include "Actor/AuraProjectile.h"
-#include "Aura/Public/AuraGameplayTags.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 
@@ -56,12 +56,8 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 	FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
 
-	for (TTuple<FGameplayTag, FScalableFloat>& Pair : DamageTypes)
-	{
-		const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Pair.Key, ScaledDamage);
-	}
-
+	const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageType, ScaledDamage);
 	//const float ScaledDamage = Damage.GetValueAtLevel(10);//GetAbilityLevel());
 
 
@@ -70,3 +66,4 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	Projectile->FinishSpawning(SpawnTransform);
 
 }
+ 

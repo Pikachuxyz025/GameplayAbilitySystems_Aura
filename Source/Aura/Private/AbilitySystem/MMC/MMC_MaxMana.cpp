@@ -4,6 +4,7 @@
 #include "AbilitySystem/MMC/MMC_MaxMana.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Interfaces/CombatInterface.h"
+#include "Interfaces/ModifierDependencyInterface.h"
 
 UMMC_MaxMana::UMMC_MaxMana()
 {
@@ -34,4 +35,13 @@ float UMMC_MaxMana::CalculateBaseMagnitude_Implementation(const FGameplayEffectS
 	}
 
 	return 50.f + 2.5f * Intelligence + 15.f * PlayerLevel;
+}
+
+FOnExternalGameplayModifierDependencyChange* UMMC_MaxMana::GetExternalModifierDependencyMulticast(const FGameplayEffectSpec& Spec, UWorld* World) const
+{
+	AActor* Instigator = Spec.GetContext().GetInstigator();
+	TScriptInterface<IModifierDependencyInterface> ModifierDependencyInterface = Instigator;
+	if (ModifierDependencyInterface)
+		return ModifierDependencyInterface->GetOnModifierDependencyChanged();
+	return Super::GetExternalModifierDependencyMulticast(Spec, World);
 }

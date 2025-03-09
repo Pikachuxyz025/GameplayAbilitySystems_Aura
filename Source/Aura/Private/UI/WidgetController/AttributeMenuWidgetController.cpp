@@ -38,13 +38,6 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 		}
 	);
 
-	GetAuraPS()->OnSpellPointsChangedDelegate.AddLambda(
-		[this](int32 NewSpellPoints)
-		{
-			OnSpellPointsChangedDelegate.Broadcast(NewSpellPoints);
-		}
-	);
-
 	for (auto& Pair : GetAuraAS()->TagsToAttributes)
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(

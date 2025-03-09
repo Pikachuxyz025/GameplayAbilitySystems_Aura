@@ -4,6 +4,8 @@ using namespace UP;
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
+#include "GameplayModMagnitudeCalculation.h"
+#include "Interfaces/ModifierDependencyInterface.h"
 #include "AbilitySystemInterface.h"
 #include "AuraPlayerState.generated.h"
 
@@ -12,7 +14,7 @@ class ULevelUpInfo;
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32 /*StatValue*/);
 
 UCLASS()
-class AURA_API AAuraPlayerState : public APlayerState,public IAbilitySystemInterface
+class AURA_API AAuraPlayerState : public APlayerState,public IAbilitySystemInterface,public IModifierDependencyInterface
 {
 	GENERATED_BODY()
 	
@@ -25,6 +27,8 @@ public:
 	FOnPlayerStatChanged OnLevelChangedDelegate;
 	FOnPlayerStatChanged OnAttributePointChangedDelegate;
 	FOnPlayerStatChanged OnSpellPointsChangedDelegate;
+	FOnExternalGameplayModifierDependencyChange OnModifierDependencyChanged;
+
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<ULevelUpInfo> LevelUpInfo;
@@ -81,5 +85,5 @@ public:
 	FORCEINLINE	int32 GetXP() const { return XP; }
 	FORCEINLINE	int32 GetAttributePoints() const { return AttributePoints; }
 	FORCEINLINE	int32 GetSpellPoints() const { return SpellPoints; }
-
+	FORCEINLINE virtual FOnExternalGameplayModifierDependencyChange* GetOnModifierDependencyChanged() override { return &OnModifierDependencyChanged; }
 };

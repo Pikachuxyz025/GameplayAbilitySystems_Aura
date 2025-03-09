@@ -14,7 +14,7 @@
 #include <Player/AuraPlayerState.h>
 
 AAuraCharacter::AAuraCharacter()
-{	
+{
 	LevelUpNiagaraComponent = CreateDefaultSubobject<UNiagaraComponent>("LevelUpNiagaraComponent");
 	LevelUpNiagaraComponent->SetupAttachment(GetRootComponent());
 	LevelUpNiagaraComponent->bAutoActivate = false;
@@ -24,7 +24,7 @@ AAuraCharacter::AAuraCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
-	
+
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -72,7 +72,7 @@ void AAuraCharacter::OnRep_PlayerState()
 }
 
 void AAuraCharacter::InitAbilityActorInfo()
-{	
+{
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 
 	check(AuraPlayerState);
@@ -80,14 +80,14 @@ void AAuraCharacter::InitAbilityActorInfo()
 	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
-	
+
 	if (AAuraPlayerController* AuraPC = Cast<AAuraPlayerController>(GetController()))
 	{
-		if(AAuraHUD * AuraHUD = Cast<AAuraHUD>(AuraPC->GetHUD()))
-		AuraHUD->InitOverlay(AuraPC, AuraPlayerState, AbilitySystemComponent, AttributeSet);
+		if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPC->GetHUD()))
+			AuraHUD->InitOverlay(AuraPC, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 	}
-	if(HasAuthority())
-	InitializeDefaultAttributes();
+	if (HasAuthority())
+		InitializeDefaultAttributes();
 }
 
 void AAuraCharacter::AddToXP_Implementation(int32 InXP)
@@ -130,7 +130,7 @@ int32 AAuraCharacter::FindLevelForXP_Implementation(int32 InXP) const
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 	return AuraPlayerState->LevelUpInfo->FindLevelForXP(InXP);
-	
+
 }
 
 int32 AAuraCharacter::GetAttributePointsReward_Implementation(int32 Level) const
@@ -154,6 +154,10 @@ void AAuraCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 	check(AuraPlayerState);
 
 	AuraPlayerState->AddToLevel(InPlayerLevel);
+	if(UAuraAbilitySystemComponent * AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		AuraASC->UpdateAbilityStatuses(AuraPlayerState->GetPlayerLevel());
+	}
 }
 
 void AAuraCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)

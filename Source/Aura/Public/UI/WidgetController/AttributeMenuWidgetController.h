@@ -28,7 +28,6 @@ class AURA_API UAttributeMenuWidgetController : public UAuraWidgetController
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues() override;
 
 	void BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const;
@@ -40,9 +39,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnPlayerStatChangedSignature OnAttributePointsChangedDelegate;
-
-	UPROPERTY(BlueprintAssignable, Category = "GAS|Spells")
-	FOnPlayerStatChangedSignature OnSpellPointsChangedDelegate;
 
 	UFUNCTION(BlueprintCallable , Category = "GAS|Attributes")
 	void UpgradeAttribute(const FGameplayTag& AttributeTag);

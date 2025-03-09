@@ -21,6 +21,8 @@ void AAuraPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AAuraPlayerState, Level);
 	DOREPLIFETIME(AAuraPlayerState, XP);
+	DOREPLIFETIME(AAuraPlayerState, AttributePoints);
+	DOREPLIFETIME(AAuraPlayerState, SpellPoints);
 }
 
 void AAuraPlayerState::OnRep_Level(int32 OldLevel)
@@ -94,5 +96,11 @@ void AAuraPlayerState::AddToLevel(int32 InLevel)
 {
 
 	Level += InLevel;
+
+	// Force a recalculation of MMC_MaxHealth and MMC_MaxMana's magnitudes, which depend on Level.
+	OnModifierDependencyChanged.Broadcast();
+	// Maximize vital attributes using the updated magnitudes
+	Cast<UAuraAttributeSet>(AttributeSet)->MaximizeVitalAttributes();
+
 	OnLevelChangedDelegate.Broadcast(Level);
 }

@@ -191,6 +191,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 				bTopOffHealth = true;
 				bTopOffMana = true;
+				SetVigor(GetVigor());
+				SetIntelligence(GetIntelligence());
 
 				IPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
 			}
@@ -204,16 +206,22 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);
 
-	if (Attribute == GetMaxHealthAttribute() && bTopOffHealth)
+	/*if (Attribute == GetMaxHealthAttribute() && bTopOffHealth)
 	{
 		SetHealth(GetMaxHealth());
 		bTopOffHealth = false;
 	}
 	if (Attribute == GetManaAttribute() && bTopOffMana)
-	{
-		SetMana(GetMaxMana());
+	{		
 		bTopOffMana = false;
-	}
+		SetMana(GetMaxMana());
+	}*/
+}
+
+void UAuraAttributeSet::MaximizeVitalAttributes()
+{
+	SetHealth(GetMaxHealth());
+	SetMana(GetMaxMana());
 }
 
 void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, const float Damage, bool bBlockedHit, bool bCriticalHit) const
