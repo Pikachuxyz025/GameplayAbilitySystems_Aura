@@ -68,6 +68,11 @@ public:
 	FGameplayTag Debuff_Archane;
 	FGameplayTag Debuff_Physical;
 
+	FGameplayTag Debuff_Chance;
+	FGameplayTag Debuff_Damage;
+	FGameplayTag Debuff_Duration;
+	FGameplayTag Debuff_Frequency;
+
 	FGameplayTag Effects_HitReact;
 
 	FGameplayTag Abilities_Attack;

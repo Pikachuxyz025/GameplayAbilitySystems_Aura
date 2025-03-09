@@ -15,6 +15,7 @@ class UAbilityInfo;
 class UAttributeMenuWidgetController;
 class USpellMenuWidgetController;
 struct FWidgetControllerParams;
+struct FDamageEffectParams;
 class AAuraHUD;
 UCLASS(BlueprintType, Blueprintable)
 class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
@@ -67,4 +68,6 @@ public:
 
 	static int32 GetXPRewardForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel);
 
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static FGameplayEffectContextHandle ApplyDamageEffect(FDamageEffectParams& DamageEffectParams);
 };

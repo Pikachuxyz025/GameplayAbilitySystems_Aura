@@ -10,6 +10,8 @@
 #include <Game/AuraGameModeBase.h>
 #include <AuraAbilityTypes.h>
 #include <Interfaces/CombatInterface.h>
+#include <AbilitySystemBlueprintLibrary.h>
+#include <AuraGameplayTags.h>
 
 UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -105,6 +107,25 @@ int32 UAuraAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject* Worl
 	return (int32)XPReward;
 }
 
+FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(FDamageEffectParams& DamageEffectParams)
+{
+	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+	const AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+
+	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(SourceAvatarActor);
+	FGameplayEffectSpecHandle EffectSpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
+	
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(EffectSpecHandle, DamageEffectParams.DamageType,DamageEffectParams.BasedDamage);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(EffectSpecHandle, GameplayTags.Debuff_Chance,DamageEffectParams.DebuffChance);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(EffectSpecHandle, GameplayTags.Debuff_Frequency,DamageEffectParams.DebuffFrequency);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(EffectSpecHandle, GameplayTags.Debuff_Damage,DamageEffectParams.DebuffDamage);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(EffectSpecHandle, GameplayTags.Debuff_Duration,DamageEffectParams.DebuffDuration);
+
+	DamageEffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data);
+	return EffectContextHandle;
+}
+
 bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD)
 {
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
@@ -144,7 +165,6 @@ UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldCont
 
 bool UAuraAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
 {
-;
 	if (const FAuraGameplayEffectContext* AuraContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
 		return AuraContext->IsBlockedHit();

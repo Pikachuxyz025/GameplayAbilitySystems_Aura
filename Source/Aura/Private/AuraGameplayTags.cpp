@@ -61,7 +61,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 #pragma endregion
 
 #pragma region Primary Attributes
-	
+
 	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Intelligence"),
 		FString("Increases Magical Damage")
@@ -82,7 +82,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Increases Health")
 	);
 #pragma endregion
-	
+
 #pragma region Input Tags
 
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(
@@ -174,7 +174,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 #pragma endregion
 
 #pragma region DamageTypes
-	
+
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage"),
 		FString("Damage")
@@ -202,7 +202,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 #pragma endregion
 
 #pragma region Resistances
-	
+
 	GameplayTags.Attributes_Resistance_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Resistance.Fire"),
 		FString("Resistance to Fire Damage")
@@ -245,19 +245,39 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Debuff.Physical"),
 		FString("Debuff for Physical Damage")
 	);
+
+	GameplayTags.Debuff_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Debuff.Damage"),
+		FString("Debuff Damage")
+	);
+
+	GameplayTags.Debuff_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Debuff.Chance"),
+		FString("Debuff Chance")
+	);
+
+	GameplayTags.Debuff_Frequency = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Debuff.Frequency"),
+		FString("Debuff Frequency")
+	);
+
+	GameplayTags.Debuff_Duration = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Debuff.Duration"),
+		FString("Debuff Duration")
+	);
 #pragma endregion
 
-	
 
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire,GameplayTags.Attributes_Resistance_Fire);
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Lightning,GameplayTags.Attributes_Resistance_Lightning);
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Archane,GameplayTags.Attributes_Resistance_Archane);
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical,GameplayTags.Attributes_Resistance_Physical);
 
-	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Physical,GameplayTags.Debuff_Physical);
-	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Fire,GameplayTags.Debuff_Burn);
-	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Lightning,GameplayTags.Debuff_Stun);
-	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Archane,GameplayTags.Debuff_Archane);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Archane, GameplayTags.Attributes_Resistance_Archane);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
+
+	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Physical, GameplayTags.Debuff_Physical);
+	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Fire, GameplayTags.Debuff_Burn);
+	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Lightning, GameplayTags.Debuff_Stun);
+	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Archane, GameplayTags.Debuff_Archane);
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Effects.HitReact"),
@@ -265,8 +285,8 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	);
 
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Abilities.Attack"),
-			FString("Attack Ability Tag")
+		FName("Abilities.Attack"),
+		FString("Attack Ability Tag")
 	);
 
 	GameplayTags.Abilities_None = UGameplayTagsManager::Get().AddNativeGameplayTag(
@@ -283,7 +303,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Abilities.HitReact"),
 		FString("HitReact Ability Tag")
 	);
-	
+
 	GameplayTags.Abilities_Status_Eligible = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Abilities.Status.Eligible"),
 		FString("Eligible Ability Tag Status")
@@ -362,7 +382,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 #pragma endregion
 
 #pragma region Montages
-	
+
 	GameplayTags.Montage_Attack1 = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Montage.Attack1"),
 		FString("Attack 1")
