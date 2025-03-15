@@ -54,10 +54,10 @@ struct FEffectProperties
  *
  */
 
-// typedef is specific to the FGameplayAttribute() signature, but TStaticFuncPtr is generic o any signature chosen
-//typedef TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFuncPtr;
+ // typedef is specific to the FGameplayAttribute() signature, but TStaticFuncPtr is generic o any signature chosen
+ //typedef TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFuncPtr;
 
-// allias as a true template
+ // allias as a true template
 template<class T>
 using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
 
@@ -69,11 +69,8 @@ class AURA_API UAuraAttributeSet : public UAttributeSet
 public:
 	UAuraAttributeSet();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
-
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
 
 	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
 
@@ -81,9 +78,9 @@ public:
 	* Can be precalled (like class) with typedef
 	* Function Pointer can take place of a function that returns a variable
 	* FunctionPointer = GetStrengthAttribute;
-	* FGameplayAttribute Attribute = FunctionPointer(); 
+	* FGameplayAttribute Attribute = FunctionPointer();
 	* With this in mind we can now have callable function occupy the space of a variable within something like an array or a tmap
-    */
+	*/
 
 	void MaximizeVitalAttributes();
 #pragma region Vital Attributes
@@ -170,6 +167,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
 #pragma endregion
 
+#pragma region Resistance Attributes
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance, Category = "Vital Attributes")
 	FGameplayAttributeData FireResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistance);
@@ -185,9 +183,10 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Vital Attributes")
 	FGameplayAttributeData PhysicalResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance);
+#pragma endregion
 
 #pragma region Rep Notifies
-	
+
 	UFUNCTION()
 	void OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const;
 
@@ -250,10 +249,13 @@ public:
 #pragma endregion
 
 private:
+	void HandleIncomingDamage(const FEffectProperties& Props);
+	void HandleIncomingXP(const FEffectProperties& Props);
+	void Debuff(const FEffectProperties& Props);
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
-void ShowFloatingText(const FEffectProperties& Props, const float Damage, bool bBlockedHit, bool bCriticalHit) const;
-void SendXPEvent(const FEffectProperties& Props);
+	void ShowFloatingText(const FEffectProperties& Props, const float Damage, bool bBlockedHit, bool bCriticalHit) const;
+	void SendXPEvent(const FEffectProperties& Props);
 
-bool bTopOffHealth = false;
-bool bTopOffMana = false;
+	bool bTopOffHealth = false;
+	bool bTopOffMana = false;
 };

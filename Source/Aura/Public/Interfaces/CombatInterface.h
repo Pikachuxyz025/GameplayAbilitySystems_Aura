@@ -5,11 +5,15 @@ using namespace UP;
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
 #include "CombatInterface.generated.h"
 
 class UAnimMontage;
 class UNiagaraSystem;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegistered, UAbilitySystemComponent*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeathDelegate, AActor*,DeadActor);
 
 USTRUCT(BlueprintType)
 struct FTaggedMontage
@@ -58,7 +62,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent,BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
 
-	virtual void Die() = 0;
+	virtual void Die(const FVector& DeathImpulse) = 0;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool IsDead() const;
@@ -83,4 +87,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	ECharacterClass GetCharacterClass();
+
+	virtual FOnASCRegistered GetOnASCRegisteredDelegate() = 0;
+	virtual FOnDeathDelegate GetOnDeathDelegate() = 0;
 };
