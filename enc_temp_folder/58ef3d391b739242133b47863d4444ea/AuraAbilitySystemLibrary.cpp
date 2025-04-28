@@ -242,32 +242,58 @@ void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldC
 
 void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTargets, const TArray<AActor*>& Actors, TArray<AActor*> OutClosestTargets, const FVector& Origin)
 {
-	if (Actors.Num() <= MaxTargets)
-	{
-		OutClosestTargets = Actors;
-		return;
-	}
+	AActor* ClosestTarget = nullptr;
 
-	TArray<AActor*> ActorsToCheck = Actors;
-	int32 NumTargetsFound = 0;
-
-	while (NumTargetsFound < MaxTargets)
+	for (AActor* TargetContender : Actors)
 	{
-		if (ActorsToCheck.Num() == 0) break;
-		double ClosestDistance = TNumericLimits<double>::Max();
-		AActor* ClosestActor = nullptr;
-		for (AActor* PotentialTarget : ActorsToCheck)
+		if (!TargetContender) continue;
+		 
+		float TargetContenderDist = FVector::Dist(TargetContender->GetActorLocation(), Origin);
+		if (!ClosestTarget)
 		{
-			const double Distance = (PotentialTarget->GetActorLocation() - Origin).Length();
-			if(Distance<ClosestDistance)
-			{
-				ClosestDistance = Distance;
-				ClosestActor = PotentialTarget;
-			}
+			ClosestTarget = TargetContender;
+			OutClosestTargets.AddUnique(ClosestTarget);
+			// there should be no more than one in the array at this point
+			continue;
 		}
-		ActorsToCheck.Remove(ClosestActor);
-		OutClosestTargets.AddUnique(ClosestActor);
-		++NumTargetsFound;
+
+		// if out closest targets is full end here
+		if (OutClosestTargets.Num() == MaxTargets)
+			return;
+
+		float ClosestActorDist = FVector::Dist(ClosestTarget->GetActorLocation(), Origin);
+
+		if (TargetContenderDist < ClosestActorDist)
+		{
+			ClosestTarget = TargetContender;
+			OutClosestTargets.Insert(ClosestTarget, 0);
+			continue;
+		}
+		else
+		{
+			bool bIsInserted = false;
+			// if target contender is further away then closest target find a new spot on the list
+			for (int32 i = 1; i < OutClosestTargets.Num(); i++)
+			{
+				// check the distance of the next in line
+				float CurrentActorDist = FVector::Dist(OutClosestTargets[i]->GetActorLocation(), Origin);
+
+				// compare who's closer
+				if (TargetContenderDist < CurrentActorDist)
+				{
+					// if true insert and break the loop
+					OutClosestTargets.Insert(TargetContender, i);
+					bIsInserted = true;
+					break;
+				}
+				else
+					continue;
+			}
+			// if we inserted we can continue without adding ourselves to the end of the array
+			if (bIsInserted)
+				continue;
+			OutClosestTargets.AddUnique(TargetContender);
+		}
 	}
 }
 
