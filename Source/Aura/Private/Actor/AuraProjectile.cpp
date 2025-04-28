@@ -89,4 +89,10 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 
 }
 
+void AAuraProjectile::SetHomingComponent(TObjectPtr<USceneComponent> HomingTarget)
+{
+	HomingTargetSceneComponent = HomingTarget;
+	ProjectileMovement->HomingTargetComponent = HomingTargetSceneComponent;
+}
+
 

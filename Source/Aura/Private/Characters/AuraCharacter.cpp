@@ -9,6 +9,7 @@
 #include "AbilitySystem/Data/LevelUpInfo.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "UI/HUD/AuraHUD.h"
+#include "Net/UnrealNetwork.h"
 #include "NiagaraComponent.h"
 #include "Camera/CameraComponent.h"
 #include <Player/AuraPlayerState.h>
@@ -45,6 +46,13 @@ AAuraCharacter::AAuraCharacter()
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	CharacterClass = ECharacterClass::Elementalist;
+	bReplicates = true;
+}
+
+void AAuraCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AAuraCharacter, bInShockLoop);
 }
 
 int32 AAuraCharacter::GetPlayerLevel_Implementation()
