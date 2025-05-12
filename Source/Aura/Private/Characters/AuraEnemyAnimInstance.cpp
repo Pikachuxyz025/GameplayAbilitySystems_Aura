@@ -3,6 +3,7 @@
 
 #include "Characters/AuraEnemyAnimInstance.h"
 #include "Characters/AuraEnemy.h"
+#include "Interfaces/CombatInterface.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -24,4 +25,6 @@ void UAuraEnemyAnimInstance::NativeUpdateAnimation(float DeltaTime)
 
 	GroundSpeed = UKismetMathLibrary::VSizeXY(EnemyCharacterMovement->Velocity);
 	bIsFalling = EnemyCharacterMovement->IsFalling();
+	bIsStunned = EnemyCharacter->bIsStunned;
+	bIsBeingShocked = EnemyCharacter->bIsBeingShocked;
 }

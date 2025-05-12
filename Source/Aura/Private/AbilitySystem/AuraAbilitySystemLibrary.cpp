@@ -151,7 +151,7 @@ TArray<FVector> UAuraAbilitySystemLibrary::EvenlyRotatedVectors(const FVector& F
 	return Vectors;
 }
 
-FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(FDamageEffectParams& DamageEffectParams)
+FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams)
 {
 	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
 	const AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
@@ -240,8 +240,63 @@ void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldC
 	}
 }
 
-void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTargets, const TArray<AActor*>& Actors, TArray<AActor*> OutClosestTargets, const FVector& Origin)
+void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTargets, const TArray<AActor*> Actors, TArray<AActor*>& OutClosestTargets, const FVector& Origin)
 {
+	
+	/*AActor* ClosestTarget = nullptr;
+
+	for (AActor* TargetContender : Actors)
+	{
+		if (!TargetContender) continue;
+		 
+		float TargetContenderDist = FVector::Dist(TargetContender->GetActorLocation(), Origin);
+		if (!ClosestTarget)
+		{
+			ClosestTarget = TargetContender;
+			OutClosestTargets.AddUnique(ClosestTarget);
+			// there should be no more than one in the array at this point
+			continue;
+		}
+
+		// if out closest targets is full end here
+		if (OutClosestTargets.Num() == MaxTargets)
+			return;
+
+		float ClosestActorDist = FVector::Dist(ClosestTarget->GetActorLocation(), Origin);
+
+		if (TargetContenderDist < ClosestActorDist)
+		{
+			ClosestTarget = TargetContender;
+			OutClosestTargets.Insert(ClosestTarget, 0);
+			continue;
+		}
+		else
+		{
+			bool bIsInserted = false;
+			// if target contender is further away then closest target find a new spot on the list
+			for (int32 i = 1; i < OutClosestTargets.Num(); i++)
+			{
+				// check the distance of the next in line
+				float CurrentActorDist = FVector::Dist(OutClosestTargets[i]->GetActorLocation(), Origin);
+
+				// compare who's closer
+				if (TargetContenderDist < CurrentActorDist)
+				{
+					// if true insert and break the loop
+					OutClosestTargets.Insert(TargetContender, i);
+					bIsInserted = true;
+					break;
+				}
+				else
+					continue;
+			}
+			// if we inserted we can continue without adding ourselves to the end of the array
+			if (bIsInserted)
+				continue;
+			OutClosestTargets.AddUnique(TargetContender);
+		}
+	}*/
+
 	if (Actors.Num() <= MaxTargets)
 	{
 		OutClosestTargets = Actors;
@@ -428,7 +483,7 @@ void UAuraAbilitySystemLibrary::SetDamageType(FGameplayEffectContextHandle& Effe
 	}
 }
 
-void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& EffectContextHandle, FVector& InDeathImpulse)
+void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& EffectContextHandle, const FVector& InDeathImpulse)
 {
 	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
@@ -436,7 +491,7 @@ void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& Ef
 	}
 }
 
-void UAuraAbilitySystemLibrary::SetKnockbackForce(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, FVector& InKnockback)
+void UAuraAbilitySystemLibrary::SetKnockbackForce(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, const FVector& InKnockback)
 {
 	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{

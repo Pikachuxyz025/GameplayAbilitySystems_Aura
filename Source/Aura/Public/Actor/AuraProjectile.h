@@ -63,4 +63,6 @@ private:
 public:
 	TObjectPtr<USphereComponent> GetSphere() { return Sphere; }
 	void SetHomingComponent(TObjectPtr<USceneComponent> HomingTarget);
+
+	bool IsValidOverlap(AActor* OtherActor);
 };

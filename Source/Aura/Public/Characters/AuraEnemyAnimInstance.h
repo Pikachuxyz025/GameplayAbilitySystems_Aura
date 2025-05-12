@@ -6,9 +6,9 @@
 #include "Animation/AnimInstance.h"
 #include "AuraEnemyAnimInstance.generated.h"
 
-/**
- * 
- */
+class AAuraEnemy;
+class UCharacterMovementComponent;
+
 UCLASS()
 class AURA_API UAuraEnemyAnimInstance : public UAnimInstance
 {
@@ -20,10 +20,10 @@ public:
 	//virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Character", meta = (AllowPrivateAccess = "true"))
-	class AAuraEnemy* EnemyCharacter;
+	AAuraEnemy* EnemyCharacter;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Character", meta = (AllowPrivateAccess = "true"))
-	class UCharacterMovementComponent* EnemyCharacterMovement;
+	UCharacterMovementComponent* EnemyCharacterMovement;
 
 private:
 
@@ -32,4 +32,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	bool bIsFalling;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+	bool bIsStunned;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+	bool bIsBeingShocked;
 };
