@@ -16,7 +16,9 @@
 #include "GameFramework/Character.h"
 #include "NavigationPath.h"
 #include "UI/Widget/DamageTextComponent.h"
+#include "Components/DecalComponent.h"
 #include <NiagaraFunctionLibrary.h>
+#include "Actor/MagicCircleActor.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -50,8 +52,8 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
-
-		AutoRun();
+	AutoRun();
+	UpdateMagicCircleLocation();
 }
 
 void AAuraPlayerController::AutoRun()
@@ -74,6 +76,14 @@ void AAuraPlayerController::AutoRun()
 
 }
 
+void AAuraPlayerController::UpdateMagicCircleLocation()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->SetActorLocation(CursorHit.ImpactPoint);
+	}
+}
+
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -84,6 +94,24 @@ void AAuraPlayerController::SetupInputComponent()
 	AuraInput->BindAction(IA_Shift, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
 	AuraInput->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 
+}
+
+void AAuraPlayerController::ShowMagicCircle(UMaterialInterface* DecalMaterial)
+{
+	if (!IsValid(MagicCircle))
+	{
+		MagicCircle = GetWorld()->SpawnActor<AMagicCircleActor>(MagicCircleClass);
+		if (DecalMaterial)
+			MagicCircle->MagicCircleDecal->SetMaterial(0,DecalMaterial);
+	}
+}
+
+void AAuraPlayerController::HideMagicCircle()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->Destroy();
+	}
 }
 
 void AAuraPlayerController::ClientShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit)

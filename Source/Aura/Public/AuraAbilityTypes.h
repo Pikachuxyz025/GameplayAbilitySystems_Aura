@@ -4,6 +4,7 @@
 #include "AuraAbilityTypes.generated.h"
 
 class UGameplayEffect;
+class UAbilitySystemComponent; 
 
 USTRUCT(BlueprintType)
 struct FDamageEffectParams

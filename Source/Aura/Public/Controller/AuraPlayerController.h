@@ -18,6 +18,8 @@ class UAuraInputConfig;
 class UNiagaraSystem;
 struct FInputActionValue;
 
+class AMagicCircleActor;
+
 UCLASS()
 class AURA_API AAuraPlayerController : public APlayerController
 {
@@ -34,7 +36,11 @@ public:
 	UFUNCTION(Client,Reliable)
 	void ClientShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit);
 
-	
+	UFUNCTION(BlueprintCallable)
+	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
+
+	UFUNCTION(BlueprintCallable)
+	void HideMagicCircle();
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -92,6 +98,13 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AMagicCircleActor> MagicCircleClass;
+
+	TObjectPtr<AMagicCircleActor> MagicCircle;
+
+	void UpdateMagicCircleLocation();
 public:
 	FHitResult GetCursorHit() const { return CursorHit; }
 };
